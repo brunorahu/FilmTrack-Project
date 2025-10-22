@@ -1,7 +1,5 @@
 # backend/app/dao/user_dao.py
 
-# Quitamos la importación de User, ya que no la usaremos aquí todavía.
-# from app.modelo.user import User
 from app.conexionbd import ConexionBD
 
 class UserDAO:
@@ -9,36 +7,52 @@ class UserDAO:
         self.conexion = ConexionBD()
 
     def register_user(self, username, email, password):
-        """
-        Llama al procedimiento almacenado para registrar un nuevo usuario.
-        Devuelve el ID del nuevo usuario si tiene éxito, o un mensaje de error si falla.
-        """
+        # (The register_user method stays the same)
         try:
             self.conexion.establecerConexionBD()
             cursor = self.conexion.connection.cursor()
-
-            # Preparamos la llamada al procedimiento almacenado
             sp_call = "{CALL sp_RegisterUser (?, ?, ?)}"
             params = (username, email, password)
-
-            # Ejecutamos el procedimiento
             cursor.execute(sp_call, params)
-
-            # Obtenemos el resultado (el NewUserID que devuelve el SP)
             new_user_id = cursor.fetchone()[0]
-
-            # Confirmamos la transacción
             self.conexion.connection.commit()
-
             return {"success": True, "user_id": new_user_id}
-
         except Exception as e:
-            # Si hay un error (ej. usuario duplicado), revertimos la transacción
             if self.conexion.connection:
                 self.conexion.connection.rollback()
             print(f"Error al registrar usuario: {e}")
             return {"success": False, "error": str(e)}
+        finally:
+            self.conexion.cerrarConexionBD()
+
+    def login_user(self, username_or_email, password):
+        """
+        Calls the stored procedure to log in a user.
+        Returns user data if successful, or an error message if it fails.
+        """
+        try:
+            self.conexion.establecerConexionBD()
+            cursor = self.conexion.connection.cursor()
+            sp_call = "{CALL sp_LoginUser (?, ?)}"
+            params = (username_or_email, password)
+            cursor.execute(sp_call, params)
+
+            # fetchone() will return a row if login is successful, or None if it fails
+            user_row = cursor.fetchone()
+
+            if user_row:
+                user_data = {
+                    "user_id": user_row[0],
+                    "username": user_row[1],
+                    "email": user_row[2]
+                }
+                return {"success": True, "user": user_data}
+            else:
+                return {"success": False, "error": "Invalid credentials"}
+
+        except Exception as e:
+            print(f"Error during login: {e}")
+            return {"success": False, "error": str(e)}
 
         finally:
-            # Cerramos la conexión
             self.conexion.cerrarConexionBD()

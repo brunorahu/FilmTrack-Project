@@ -3,12 +3,12 @@
 from flask import Flask, request, jsonify
 from app.conexionbd import ConexionBD
 from app.dao.user_dao import UserDAO
+from app.dao.tmdb_dao import TMDB_DAO
 import time
 
 app = Flask(__name__)
 
 # --- LÓGICA DE REINTENTO DE CONEXIÓN A LA BD ---
-# (Esta parte se queda igual)
 max_retries = 5
 retry_delay = 5
 
@@ -31,14 +31,7 @@ def hello_world():
 
 @app.route('/api/users/register', methods=['POST'])
 def register_user_endpoint():
-    """
-    Endpoint para registrar un nuevo usuario.
-    Espera un JSON con 'username', 'email' y 'password'.
-    """
-    # Obtenemos los datos del cuerpo de la petición
     data = request.get_json()
-
-    # Validamos que los datos necesarios estén presentes
     if not data or not all(key in data for key in ['username', 'email', 'password']):
         return jsonify({"error": "Faltan datos requeridos (username, email, password)"}), 400
 
@@ -48,9 +41,31 @@ def register_user_endpoint():
     if result["success"]:
         return jsonify({"message": "Usuario registrado exitosamente", "user_id": result["user_id"]}), 201
     else:
-        # El error 409 (Conflict) es ideal para cuando un recurso ya existe (ej. email duplicado)
         return jsonify({"error": f"No se pudo registrar el usuario: {result['error']}"}), 409
 
+@app.route('/api/users/login', methods=['POST'])
+def login_user_endpoint():
+    data = request.get_json()
+    if not data or not all(key in data for key in ['username_or_email', 'password']):
+        return jsonify({"error": "Missing required data (username_or_email, password)"}), 400
+
+    user_dao = UserDAO()
+    result = user_dao.login_user(data['username_or_email'], data['password'])
+
+    if result["success"]:
+        return jsonify({"message": "Login successful", "user": result["user"]}), 200
+    else:
+        return jsonify({"error": result["error"]}), 401
+
+@app.route('/api/movies/trending', methods=['GET'])
+def get_trending_movies_endpoint():
+    tmdb_dao = TMDB_DAO()
+    result = tmdb_dao.get_trending_movies()
+
+    if result["success"]:
+        return jsonify(result["data"]), 200
+    else:
+        return jsonify({"error": f"No se pudo obtener datos de TMDB: {result['error']}"}), 503
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
