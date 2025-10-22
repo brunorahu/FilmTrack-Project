@@ -1,0 +1,28 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  # Servicio para la Base de Datos SQL Server
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: filmtrack-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=fuqtix-humke6-cukjYx
+    ports:
+      - "1433:1433"
+    volumes:
+      - filmtrack-db-data:/var/opt/mssql
+
+  # Servicio para nuestra API del Backend
+  backend:
+    build: ./backend  # Le dice a Docker que busque el Dockerfile en la carpeta /backend
+    container_name: filmtrack-api
+    ports:
+      - "5000:5000"  # Mapea el puerto de la API al de tu máquina
+    depends_on:
+      - db  # Asegura que la base de datos inicie antes que la API
+
+volumes:
+  filmtrack-db-data:
