@@ -17,9 +17,16 @@ class MainWindow:
         self.ui.movie_list_widget.itemDoubleClicked.connect(self.handle_item_double_click)
 
         self.load_trending_movies()
+        
+        self.user_id = None
 
     # ... (los otros métodos como set_welcome_message, _populate_movie_list, etc., se quedan igual)
-    def set_welcome_message(self, username):
+    def set_user_info(self, user_data):
+        """
+        Guarda la información del usuario y personaliza el mensaje de bienvenida.
+        """
+        self.user_id = user_data.get('user_id') # <-- AÑADE ESTA LÍNEA
+        username = user_data.get('username', 'Usuario')
         self.ui.welcome_label.setText(f"¡Bienvenido, {username}!")
 
     def _populate_movie_list(self, movies):
@@ -91,7 +98,7 @@ class MainWindow:
 
                 # Creamos y mostramos la ventana de detalles
                 self.details_window = DetailsWindow()
-                self.details_window.populate_details(movie_details)
+                self.details_window.populate_details(movie_details, self.user_id)
                 self.details_window.ui.show()
             else:
                 print(f"Error al obtener los detalles de la película: {response.text}")

@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 from app.conexionbd import ConexionBD
 from app.dao.user_dao import UserDAO
 from app.dao.tmdb_dao import TMDB_DAO
+from app.dao.library_dao import LibraryDAO # <-- ¡NUEVA IMPORTACIÓN!
 import time
 
 app = Flask(__name__)
@@ -99,6 +100,31 @@ def get_movie_details_endpoint(movie_id):
         return jsonify(result["data"]), 200
     else:
         return jsonify({"error": f"No se pudieron obtener detalles de TMDB: {result['error']}"}), 503
+
+@app.route('/api/library/add', methods=['POST'])
+def add_to_library_endpoint():
+    """
+    Endpoint para añadir una película a la librería de un usuario.
+    Espera un JSON con: user_id, content_id, content_type, status.
+    """
+    data = request.get_json()
+    required_keys = ['user_id', 'content_id', 'content_type', 'status']
+
+    if not data or not all(key in data for key in required_keys):
+        return jsonify({"error": "Faltan datos requeridos"}), 400
+
+    library_dao = LibraryDAO()
+    result = library_dao.add_movie_to_library(
+        data['user_id'],
+        data['content_id'],
+        data['content_type'],
+        data['status']
+    )
+
+    if result["success"]:
+        return jsonify(result), 201 # 201 Created es apropiado aquí
+    else:
+        return jsonify(result), 500 # 500 Internal Server Error
 
 
 if __name__ == '__main__':

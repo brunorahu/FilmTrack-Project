@@ -80,7 +80,7 @@
        <widget class="QFrame" name="frame_superior_derecho">
         <property name="maximumSize">
          <size>
-          <width>130</width>
+          <width>170</width>
           <height>16777215</height>
          </size>
         </property>
@@ -91,6 +91,31 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>43</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="add_to_library_button">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Añadir a mi Librería</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QLabel" name="release_date_label">
            <property name="maximumSize">

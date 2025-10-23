@@ -45,7 +45,7 @@ class LoginWindow:
                 print("Datos del usuario:", user_info)
                 
                 self.main_window = MainWindow()
-                self.main_window.set_welcome_message(user_info['username'])
+                self.main_window.set_user_info(user_info)
                 self.main_window.ui.show()
                 self.ui.close() 
 
