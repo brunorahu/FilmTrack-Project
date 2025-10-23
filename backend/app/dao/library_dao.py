@@ -34,3 +34,36 @@ class LibraryDAO:
 
         finally:
             self.conexion.cerrarConexionBD()
+    
+    def get_user_library(self, user_id):
+        """
+        Llama al procedimiento almacenado para obtener la librería de un usuario.
+        """
+        try:
+            self.conexion.establecerConexionBD()
+            cursor = self.conexion.connection.cursor()
+
+            sp_call = "{CALL sp_GetUserLibrary (?)}"
+            params = (user_id,)
+
+            cursor.execute(sp_call, params)
+            rows = cursor.fetchall()
+
+            # Convertimos las filas a una lista de diccionarios para que sea fácil de usar
+            library_items = []
+            for row in rows:
+                library_items.append({
+                    "content_id": row.ContentID,
+                    "content_type": row.ContentType,
+                    "status": row.Status,
+                    "rating": row.Rating,
+                    "added_at": row.AddedAt
+                })
+
+            return {"success": True, "data": library_items}
+
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+        finally:
+            self.conexion.cerrarConexionBD()

@@ -4,28 +4,26 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QListWidgetItem
 from PySide6.QtCore import Qt
 import requests
-from load.details_window_loader import DetailsWindow # <-- ¡NUEVA IMPORTACIÓN!
+from load.details_window_loader import DetailsWindow
 
 class MainWindow:
     def __init__(self):
         loader = QUiLoader()
         self.ui = loader.load("view/main_window.ui")
-
-        self.details_window = None # Para mantener una referencia a la ventana de detalles
-
-        self.ui.search_button.clicked.connect(self.handle_search)
-        self.ui.movie_list_widget.itemDoubleClicked.connect(self.handle_item_double_click)
-
-        self.load_trending_movies()
         
+        self.details_window = None
         self.user_id = None
+        
+        # Conectamos los botones
+        self.ui.search_button.clicked.connect(self.handle_search)
+        self.ui.my_library_button.clicked.connect(self.handle_my_library) # <-- NUEVA CONEXIÓN
+        self.ui.movie_list_widget.itemDoubleClicked.connect(self.handle_item_double_click)
+        
+        # Al iniciar, seguimos mostrando las tendencias
+        self.load_trending_movies()
 
-    # ... (los otros métodos como set_welcome_message, _populate_movie_list, etc., se quedan igual)
     def set_user_info(self, user_data):
-        """
-        Guarda la información del usuario y personaliza el mensaje de bienvenida.
-        """
-        self.user_id = user_data.get('user_id') # <-- AÑADE ESTA LÍNEA
+        self.user_id = user_data.get('user_id')
         username = user_data.get('username', 'Usuario')
         self.ui.welcome_label.setText(f"¡Bienvenido, {username}!")
 
@@ -46,19 +44,43 @@ class MainWindow:
             self.ui.movie_list_widget.addItem(list_item)
 
     def load_trending_movies(self):
-        # ... (se queda igual)
         print("Cargando películas en tendencia...")
         api_url = "http://localhost:5000/api/movies/trending"
         try:
             response = requests.get(api_url)
             if response.status_code == 200:
-                movies = response.json()
-                self._populate_movie_list(movies)
-                print(f"Se cargaron {len(movies)} películas en la lista.")
-            else:
-                print(f"Error al obtener las películas de la API: {response.text}")
-        except requests.exceptions.ConnectionError as e:
+                self._populate_movie_list(response.json())
+        except requests.exceptions.RequestException as e:
             print(f"Error de conexión al cargar películas: {e}")
+
+    # --- ¡NUEVA FUNCIÓN! ---
+    def handle_my_library(self):
+        if not self.user_id:
+            print("No se ha iniciado sesión, no se puede cargar la librería.")
+            return
+
+        print(f"Cargando la librería del usuario ID: {self.user_id}")
+        api_url = f"http://localhost:5000/api/library/{self.user_id}"
+        
+        try:
+            response = requests.get(api_url)
+            if response.status_code == 200:
+                library_items = response.json()
+                
+                # Como la librería solo nos da IDs, necesitamos obtener los detalles de cada película
+                movies_details = []
+                for item in library_items:
+                    details_url = f"http://localhost:5000/api/movies/{item['content_id']}"
+                    details_response = requests.get(details_url)
+                    if details_response.status_code == 200:
+                        movies_details.append(details_response.json())
+                
+                self._populate_movie_list(movies_details)
+            else:
+                print(f"Error al obtener la librería: {response.text}")
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error de conexión al cargar la librería: {e}")
 
     def handle_search(self):
         # ... (se queda igual)

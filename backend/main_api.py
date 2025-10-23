@@ -126,6 +126,19 @@ def add_to_library_endpoint():
     else:
         return jsonify(result), 500 # 500 Internal Server Error
 
+# --- ¡NUEVO ENDPOINT PARA OBTENER LA LIBRERÍA! ---
+@app.route('/api/library/<int:user_id>', methods=['GET'])
+def get_library_endpoint(user_id):
+    """
+    Endpoint para obtener la librería de un usuario por su ID.
+    """
+    library_dao = LibraryDAO()
+    result = library_dao.get_user_library(user_id)
+
+    if result["success"]:
+        return jsonify(result["data"]), 200
+    else:
+        return jsonify({"error": result["error"]}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
