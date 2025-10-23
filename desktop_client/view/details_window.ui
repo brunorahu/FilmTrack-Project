@@ -282,6 +282,29 @@
               </property>
              </spacer>
             </item>
+            <item>
+             <widget class="QSpinBox" name="rating_spinbox">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>10</number>
+              </property>
+              <property name="value">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="review_textedit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="save_review_button">
+              <property name="text">
+               <string>Guardar Calificación</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>

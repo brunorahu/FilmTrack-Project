@@ -126,7 +126,6 @@ def add_to_library_endpoint():
     else:
         return jsonify(result), 500 # 500 Internal Server Error
 
-# --- ¡NUEVO ENDPOINT PARA OBTENER LA LIBRERÍA! ---
 @app.route('/api/library/<int:user_id>', methods=['GET'])
 def get_library_endpoint(user_id):
     """
@@ -139,6 +138,32 @@ def get_library_endpoint(user_id):
         return jsonify(result["data"]), 200
     else:
         return jsonify({"error": result["error"]}), 500
+
+# --- ¡NUEVO ENDPOINT PARA CALIFICAR Y RESEÑAR! ---
+@app.route('/api/library/review', methods=['POST'])
+def rate_review_endpoint():
+    """
+    Endpoint para que un usuario califique y/o deje una reseña de una película.
+    Espera un JSON con: user_id, content_id, rating, y opcionalmente review_text.
+    """
+    data = request.get_json()
+    required_keys = ['user_id', 'content_id', 'rating']
+    
+    if not data or not all(key in data for key in required_keys):
+        return jsonify({"error": "Faltan datos requeridos (user_id, content_id, rating)"}), 400
+
+    library_dao = LibraryDAO()
+    result = library_dao.rate_and_review_movie(
+        data['user_id'],
+        data['content_id'],
+        data['rating'],
+        data.get('review_text') # .get() para manejar el campo opcional
+    )
+
+    if result["success"]:
+        return jsonify(result), 200
+    else:
+        return jsonify(result), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

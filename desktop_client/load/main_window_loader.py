@@ -14,14 +14,22 @@ class MainWindow:
         self.details_window = None
         self.user_id = None
         
-        # Conectamos los botones
+        # --- ¡CONEXIONES ACTUALIZADAS! ---
+        # Conectamos los botones de la barra lateral a sus funciones correspondientes
+        self.ui.btn_trending.clicked.connect(self.load_trending_movies)
+        self.ui.btn_my_library.clicked.connect(self.handle_my_library)
+        
+        # El resto de las conexiones se quedan igual
         self.ui.search_button.clicked.connect(self.handle_search)
-        self.ui.my_library_button.clicked.connect(self.handle_my_library) # <-- NUEVA CONEXIÓN
         self.ui.movie_list_widget.itemDoubleClicked.connect(self.handle_item_double_click)
         
-        # Al iniciar, seguimos mostrando las tendencias
+        # Al iniciar, por defecto mostramos las tendencias
         self.load_trending_movies()
 
+    # El resto de las funciones (set_user_info, _populate_movie_list, 
+    # load_trending_movies, handle_my_library, etc.) se quedan
+    # exactamente igual que en la versión anterior.
+    
     def set_user_info(self, user_data):
         self.user_id = user_data.get('user_id')
         username = user_data.get('username', 'Usuario')
@@ -45,6 +53,8 @@ class MainWindow:
 
     def load_trending_movies(self):
         print("Cargando películas en tendencia...")
+        # Lógica para cambiar a la página 0 del Stacked Widget
+        self.ui.main_stacked_widget.setCurrentIndex(0)
         api_url = "http://localhost:5000/api/movies/trending"
         try:
             response = requests.get(api_url)
@@ -53,37 +63,28 @@ class MainWindow:
         except requests.exceptions.RequestException as e:
             print(f"Error de conexión al cargar películas: {e}")
 
-    # --- ¡NUEVA FUNCIÓN! ---
     def handle_my_library(self):
         if not self.user_id:
-            print("No se ha iniciado sesión, no se puede cargar la librería.")
             return
-
         print(f"Cargando la librería del usuario ID: {self.user_id}")
+        # Lógica para cambiar a la página 0 del Stacked Widget
+        self.ui.main_stacked_widget.setCurrentIndex(0)
         api_url = f"http://localhost:5000/api/library/{self.user_id}"
-        
         try:
             response = requests.get(api_url)
             if response.status_code == 200:
                 library_items = response.json()
-                
-                # Como la librería solo nos da IDs, necesitamos obtener los detalles de cada película
                 movies_details = []
                 for item in library_items:
                     details_url = f"http://localhost:5000/api/movies/{item['content_id']}"
                     details_response = requests.get(details_url)
                     if details_response.status_code == 200:
                         movies_details.append(details_response.json())
-                
                 self._populate_movie_list(movies_details)
-            else:
-                print(f"Error al obtener la librería: {response.text}")
-
         except requests.exceptions.RequestException as e:
             print(f"Error de conexión al cargar la librería: {e}")
 
     def handle_search(self):
-        # ... (se queda igual)
         search_text = self.ui.search_bar.text()
         if not search_text:
             self.load_trending_movies()
@@ -93,36 +94,21 @@ class MainWindow:
         try:
             response = requests.get(api_url)
             if response.status_code == 200:
-                movies = response.json()
-                self._populate_movie_list(movies)
-                print(f"Se encontraron {len(movies)} resultados.")
-            else:
-                print(f"Error en la búsqueda: {response.text}")
-        except requests.exceptions.ConnectionError as e:
-            print(f"Error de conexión en la búsqueda: {e}")
+                self._populate_movie_list(response.json())
+        except requests.exceptions.RequestException as e:
+            print(f"Error en la búsqueda: {e}")
 
-
-    # --- ¡FUNCIÓN ACTUALIZADA! ---
     def handle_item_double_click(self, item):
         movie_id = item.data(Qt.UserRole)
-
         if not movie_id:
-            print("Este elemento no tiene un ID de película asociado.")
             return
-
-        print(f"Obteniendo detalles para la película con ID: {movie_id}")
         api_url = f"http://localhost:5000/api/movies/{movie_id}"
-
         try:
             response = requests.get(api_url)
             if response.status_code == 200:
                 movie_details = response.json()
-
-                # Creamos y mostramos la ventana de detalles
                 self.details_window = DetailsWindow()
                 self.details_window.populate_details(movie_details, self.user_id)
                 self.details_window.ui.show()
-            else:
-                print(f"Error al obtener los detalles de la película: {response.text}")
-        except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.RequestException as e:
             print(f"Error de conexión al obtener detalles: {e}")

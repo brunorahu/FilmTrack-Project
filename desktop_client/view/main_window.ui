@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>603</width>
-    <height>504</height>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,7 +51,7 @@
           </font>
          </property>
          <property name="text">
-          <string>¡Bienvenido, usuario!</string>
+          <string>¡Hola de nuevo, usuario!</string>
          </property>
         </widget>
        </item>
@@ -110,6 +110,9 @@
      </widget>
     </item>
     <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_5"/>
+    </item>
+    <item>
      <widget class="QFrame" name="frame_3">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -119,7 +122,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QFrame" name="frame_5">
+        <widget class="QFrame" name="sidebar_frame">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -140,7 +143,14 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QPushButton" name="my_library_button">
+           <widget class="QPushButton" name="btn_trending">
+            <property name="text">
+             <string>Trending</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_my_library">
             <property name="text">
              <string>Mi Librería</string>
             </property>
@@ -163,18 +173,15 @@
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="frame_4">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QListWidget" name="movie_list_widget"/>
-          </item>
-         </layout>
+        <widget class="QStackedWidget" name="main_stacked_widget">
+         <widget class="QWidget" name="page">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QListWidget" name="movie_list_widget"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_2"/>
         </widget>
        </item>
       </layout>
