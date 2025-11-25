@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>180</width>
+    <height>280</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* Estilo para el widget contenedor de la tarjeta */
+QWidget {
+    background-color: #2b2b2b;
+    border-radius: 8px;
+}
+
+/* Estilo para la etiqueta del póster */
+QLabel#poster_label {
+    background-color: #1e1e1e;
+    border-radius: 5px;
+}
+
+/* Estilo para la etiqueta del título */
+QLabel#title_label {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* Estilo para la etiqueta de la calificación */
+QLabel#rating_label {
+    color: #f0f0f0;
+    font-size: 14px;
+    padding-left: 5px;
+    padding-right: 5px;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="poster_label">
+     <property name="minimumSize">
+      <size>
+       <width>162</width>
+       <height>190</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>162</width>
+       <height>190</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="title_label">
+     <property name="minimumSize">
+      <size>
+       <width>162</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>162</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Título de la Película</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="rating_label">
+     <property name="minimumSize">
+      <size>
+       <width>162</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>162</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>⭐ 0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

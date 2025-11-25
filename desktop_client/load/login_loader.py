@@ -41,7 +41,7 @@ class LoginWindow:
                 self.main_window = MainWindow()
                 self.main_window.set_user_info(user_info)
                 self.main_window.ui.show()
-                self.ui.close()
+                self.ui.accept()
             else:
                 QMessageBox.warning(self.ui, "Error de Login", "Usuario o contraseña incorrectos.")
         except requests.exceptions.ConnectionError as e:

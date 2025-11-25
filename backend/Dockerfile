@@ -3,7 +3,6 @@
 # Usamos una imagen oficial de Python como base
 FROM python:3.11-slim
 
-# --- PASOS NUEVOS: Instalar el Driver ODBC de Microsoft ---
 # 1. Actualizamos los paquetes e instalamos herramientas necesarias
 RUN apt-get update && apt-get install -y curl gnupg
 

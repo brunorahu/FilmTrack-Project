@@ -2,34 +2,61 @@
 
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QListWidgetItem
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QPoint, QSize # <-- ¡QSize AÑADIDO!
 import requests
 from load.details_window_loader import DetailsWindow
+from load.movie_card_loader import MovieCard # <-- ¡IMPORTACIÓN CLAVE AÑADIDA!
 
 class MainWindow:
     def __init__(self):
         loader = QUiLoader()
         self.ui = loader.load("view/main_window.ui")
         
+        # --- LÓGICA DE VENTANA SIN MARCO ---
+        self.ui.setWindowFlag(Qt.FramelessWindowHint)
+        
+        # Conectamos los nuevos botones de la barra de título
+        self.ui.btn_close.clicked.connect(self.ui.close)
+        self.ui.btn_minimize.clicked.connect(self.ui.showMinimized)
+        self.ui.btn_maximize.clicked.connect(self.toggle_maximize)
+
+        # Preparamos las variables para poder arrastrar la ventana
+        self.drag_pos = QPoint(0, 0)
+        
+        # Conectamos los eventos del mouse de nuestra barra de título
+        self.ui.title_bar_frame.mouseMoveEvent = self.move_window
+        self.ui.title_bar_frame.mousePressEvent = self.mouse_press
+
+        # --- FIN DE LA LÓGICA ---
+        
         self.details_window = None
         self.user_id = None
         
-        # --- ¡CONEXIONES ACTUALIZADAS! ---
-        # Conectamos los botones de la barra lateral a sus funciones correspondientes
+        self.ui.search_button.setVisible(False)
         self.ui.btn_trending.clicked.connect(self.load_trending_movies)
         self.ui.btn_my_library.clicked.connect(self.handle_my_library)
-        
-        # El resto de las conexiones se quedan igual
-        self.ui.search_button.clicked.connect(self.handle_search)
+        self.ui.search_bar.returnPressed.connect(self.handle_search)
         self.ui.movie_list_widget.itemDoubleClicked.connect(self.handle_item_double_click)
         
-        # Al iniciar, por defecto mostramos las tendencias
         self.load_trending_movies()
 
-    # El resto de las funciones (set_user_info, _populate_movie_list, 
-    # load_trending_movies, handle_my_library, etc.) se quedan
-    # exactamente igual que en la versión anterior.
-    
+    # --- NUEVAS FUNCIONES PARA EL MANEJO DE LA VENTANA ---
+    def toggle_maximize(self):
+        if self.ui.isMaximized():
+            self.ui.showNormal()
+        else:
+            self.ui.showMaximized()
+
+    def mouse_press(self, event):
+        self.drag_pos = event.globalPosition().toPoint()
+
+    def move_window(self, event):
+        if event.buttons() == Qt.LeftButton:
+            delta = QPoint(event.globalPosition().toPoint() - self.drag_pos)
+            self.ui.move(self.ui.x() + delta.x(), self.ui.y() + delta.y())
+            self.drag_pos = event.globalPosition().toPoint()
+
+    # --- EL RESTO DE LAS FUNCIONES SE QUEDAN IGUAL ---
     def set_user_info(self, user_data):
         self.user_id = user_data.get('user_id')
         username = user_data.get('username', 'Usuario')
@@ -38,22 +65,27 @@ class MainWindow:
     def _populate_movie_list(self, movies):
         self.ui.movie_list_widget.clear()
         if not movies:
-            self.ui.movie_list_widget.addItem("No se encontraron resultados.")
+            item = QListWidgetItem("No se encontraron resultados.")
+            self.ui.movie_list_widget.addItem(item)
             return
         for movie in movies:
-            title = movie.get('title', 'Título no disponible')
-            release_date = movie.get('release_date', '')
             movie_id = movie.get('id')
-            year = f"({release_date.split('-')[0]})" if release_date else ""
-            display_text = f"{title} {year}"
-            list_item = QListWidgetItem(display_text)
+            
+            # Esta línea ahora funcionará porque MovieCard está importada
+            card_widget = MovieCard(movie)
+            
+            list_item = QListWidgetItem()
+            # Esta línea ahora funcionará porque QSize está importada
+            list_item.setSizeHint(QSize(180, 280))
+                        
             if movie_id:
                 list_item.setData(Qt.UserRole, movie_id)
+                
             self.ui.movie_list_widget.addItem(list_item)
+            self.ui.movie_list_widget.setItemWidget(list_item, card_widget)
 
     def load_trending_movies(self):
         print("Cargando películas en tendencia...")
-        # Lógica para cambiar a la página 0 del Stacked Widget
         self.ui.main_stacked_widget.setCurrentIndex(0)
         api_url = "http://localhost:5000/api/movies/trending"
         try:
@@ -67,7 +99,6 @@ class MainWindow:
         if not self.user_id:
             return
         print(f"Cargando la librería del usuario ID: {self.user_id}")
-        # Lógica para cambiar a la página 0 del Stacked Widget
         self.ui.main_stacked_widget.setCurrentIndex(0)
         api_url = f"http://localhost:5000/api/library/{self.user_id}"
         try:
@@ -110,5 +141,5 @@ class MainWindow:
                 self.details_window = DetailsWindow()
                 self.details_window.populate_details(movie_details, self.user_id)
                 self.details_window.ui.show()
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.ConnectionError as e:
             print(f"Error de conexión al obtener detalles: {e}")

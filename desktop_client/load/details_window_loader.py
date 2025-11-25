@@ -32,7 +32,7 @@ class DetailsWindow:
         vote_average_str = f"{vote_average:.1f} / 10"
 
         self.ui.title_label.setText(title)
-        self.ui.release_date_label.setText(f"Fecha de Estreno: {release_date}")
+        self.ui.release_date_label.setText(release_date)
         self.ui.vote_average_label.setText(f"Calificación: {vote_average_str}")
         self.ui.overview_label.setText(overview)
 
