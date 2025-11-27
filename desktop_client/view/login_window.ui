@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>618</width>
+    <height>456</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Old Antic Outline</family>
+   </font>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* ----- 1. Ajustes Generales ----- */
+QDialog {
+    background-color: #1e1e1e; /* Fondo general */
+}
+
+/* ¡AQUÍ ESTÁ LA SOLUCIÓN! */
+/* Forzamos a TODOS los QFrame a ser transparentes por defecto */
+QFrame {
+    background-color: transparent;
+    border: none;
+}
+
+/* ----- 2. Encabezado &quot;FilmTrack&quot; (frame_2) ----- */
+QFrame#frame_2 {
+    background-color: #111111; /* Barra superior negra */
+}
+QLabel#label_filmtrack {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* ----- 3. Título &quot;Bienvenido&quot; (header_frame_2) ----- */
+/* (Ya no necesita estilo de frame, será transparente por defecto) */
+QLabel#label_bienvenido {
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+/* ----- 4. Contenedores de Login (frame_4 y frame_5) ----- */
+/* (El frame_3 que los contiene será transparente por defecto) */
+QFrame#frame_4, QFrame#frame_5 {
+    background-color: #2b2b2b; /* Cajas de login gris oscuro */
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+/* ----- 5. Etiquetas &quot;Sign In&quot; y &quot;Sign Up&quot; ----- */
+QLabel#label_sign_in, QLabel#label_sign_up {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ----- 6. Campos de Texto (QLineEdit) ----- */
+QLineEdit {
+    background-color: #3c3c3c;
+    color: #f0f0f0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 14px;
+}
+QLineEdit:focus {
+    border: 1px solid #4a90e2;
+}
+
+/* ----- 7. Botones (QPushButton) ----- */
+QPushButton#btn_login {
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+}
+QPushButton#btn_login:hover {
+    background-color: #f0f0f0;
+}
+
+QPushButton#btn_create_account {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+}
+QPushButton#btn_create_account:hover {
+    background-color: #333333;
+}
+
+/* ----- Estilo para Ventanas de Aviso ----- */
+QMessageBox {
+    background-color: #2b2b2b; /* Fondo oscuro */
+}
+
+/* Etiqueta de texto dentro del aviso */
+QMessageBox QLabel {
+    color: #f0f0f0; /* Texto blanco */
+    font-size: 14px;
+}
+
+/* Botones (OK, Cancelar) dentro del aviso */
+QMessageBox QPushButton {
+    background-color: #4a90e2; /* Botón azul */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 80px; /* Un ancho mínimo para que el botón OK se vea bien */
+}
+QMessageBox QPushButton:hover {
+    background-color: #5aa1f2;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+    </layout>
+   </item>
+   <item>
+    <widget class="QFrame" name="header_frame_2">
+     <property name="minimumSize">
+      <size>
+       <width>600</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>600</width>
+       <height>60</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_bienvenido">
+        <property name="font">
+         <font>
+          <pointsize>-1</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>Bienvenido...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_3">
+     <property name="minimumSize">
+      <size>
+       <width>600</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>600</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QFrame" name="frame_4">
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>27</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_sign_in">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Sign In</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_username_email">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="placeholderText">
+            <string>Email or Username</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_password">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+           <property name="placeholderText">
+            <string>Password</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_login">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Iniciar Sesión</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>27</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_5"/>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_5">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_sign_up">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Sign Up</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_signup_email">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>Email</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_signup_username">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>Username</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_signup_password">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+           <property name="placeholderText">
+            <string>Password</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_signup_confirm_password">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+           <property name="placeholderText">
+            <string>Confirm Password</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_create_account">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Crear cuenta</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_2">
+     <property name="minimumSize">
+      <size>
+       <width>600</width>
+       <height>55</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>600</width>
+       <height>55</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>1</number>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>249</width>
+          <height>17</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_filmtrack">
+        <property name="font">
+         <font>
+          <family>Segoe UI Light</family>
+          <pointsize>-1</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">/* ----- 1. Ajustes Generales ----- */
+QDialog {
+    background-color: #1e1e1e; /* Fondo general */
+}
+
+/* ¡AQUÍ ESTÁ LA SOLUCIÓN! */
+/* Forzamos a TODOS los QFrame a ser transparentes por defecto */
+QFrame {
+    background-color: transparent;
+    border: none;
+}
+
+/* ----- 2. Encabezado &quot;FilmTrack&quot; (frame_2) ----- */
+QFrame#frame_2 {
+    background-color: #111111; /* Barra superior negra */
+}
+QLabel#label_filmtrack {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* ----- 3. Título &quot;Bienvenido&quot; (header_frame_2) ----- */
+/* (Ya no necesita estilo de frame, será transparente por defecto) */
+QLabel#label_bienvenido {
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+/* ----- 4. Contenedores de Login (frame_4 y frame_5) ----- */
+/* (El frame_3 que los contiene será transparente por defecto) */
+QFrame#frame_4, QFrame#frame_5 {
+    background-color: #2b2b2b; /* Cajas de login gris oscuro */
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+/* ----- 5. Etiquetas &quot;Sign In&quot; y &quot;Sign Up&quot; ----- */
+QLabel#label_sign_in, QLabel#label_sign_up {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ----- 6. Campos de Texto (QLineEdit) ----- */
+QLineEdit {
+    background-color: #3c3c3c;
+    color: #f0f0f0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 14px;
+}
+QLineEdit:focus {
+    border: 1px solid #4a90e2;
+}
+
+/* ----- 7. Botones (QPushButton) ----- */
+QPushButton#btn_login {
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+}
+QPushButton#btn_login:hover {
+    background-color: #f0f0f0;
+}
+
+QPushButton#btn_create_account {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+}
+QPushButton#btn_create_account:hover {
+    background-color: #333333;
+}
+
+/* ----- Estilo para Ventanas de Aviso ----- */
+QMessageBox {
+    background-color: #2b2b2b; /* Fondo oscuro */
+}
+
+/* Etiqueta de texto dentro del aviso */
+QMessageBox QLabel {
+    color: #f0f0f0; /* Texto blanco */
+    font-size: 14px;
+}
+
+/* Botones (OK, Cancelar) dentro del aviso */
+QMessageBox QPushButton {
+    background-color: #4a90e2; /* Botón azul */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 80px; /* Un ancho mínimo para que el botón OK se vea bien */
+}
+QMessageBox QPushButton:hover {
+    background-color: #5aa1f2;
+}</string>
+        </property>
+        <property name="text">
+         <string>FilmTrack</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>249</width>
+          <height>17</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
