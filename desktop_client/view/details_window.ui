@@ -6,14 +6,151 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1037</width>
-    <height>620</height>
+    <width>939</width>
+    <height>631</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">/* ----- 1. Fondo General ----- */
+QWidget#Form {
+    background-color: #1e1e1e; /* El gris oscuro de tu tema */
+    border: 1px solid #444; /* Un borde sutil para diferenciar la ventana */
+}
+
+/* ----- 2. Reset de Frames (La Solución a lo Blanco) ----- */
+QFrame {
+    background-color: transparent;
+    border: none;
+}
+
+/* ----- 3. Barra de Título ----- */
+QFrame#title_bar_frame {
+    background-color: #111111; /* Barra superior negra */
+    border-bottom: 1px solid #333;
+}
+QPushButton#btn_close {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-weight: bold;
+}
+QPushButton#btn_close:hover {
+    background-color: #e81123; /* Rojo al cerrar */
+}
+
+/* ----- 4. Textos ----- */
+QLabel {
+    color: #e0e0e0;
+}
+QLabel#title_label {
+    color: white;
+    font-size: 60px; /* &lt;-- TÍTULO MÁS GRANDE */
+    font-weight: bold;
+}
+QLabel#release_date_label { /* &lt;-- NUEVA REGLA PARA EL AÑO DE ESTRENO */
+    color: #aaaaaa; /* Un gris más suave para el año */
+    font-size: 16px;
+    font-weight: normal;
+}
+QLabel#overview_label {
+    font-size: 14px;
+    line-height: 1.4;
+	line-height: 1.6; /* Aumenta un poco la separación entre líneas */
+    text-align: justify; /* &lt;-- Qt no siempre lo soporta bien en QLabel */
+}
+
+/* ----- 5. Contenedores de Detalles (Opcional: Darles fondo oscuro) ----- */
+/* Si quieres que los cuadros de texto tengan un fondo diferente al general */
+QFrame#frame_izquierdo_inferior, QFrame#frame_izquierdo_superior {
+    background-color: #252525;
+    border-radius: 8px;
+    border: 1px solid #333;
+	padding: 15px;
+}
+
+/* ----- 6. Póster ----- */
+QLabel#poster_label {
+    background-color: #000;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+/* ----- 7. Inputs (SpinBox y TextEdit) ----- */
+QSpinBox {
+    background-color: #2b2b2b;
+    color: white;
+    border: 1px solid #555;
+    padding: 5px;
+    border-radius: 4px;
+}
+QTextEdit {
+    background-color: #2b2b2b;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+/* ----- 8. Botones de Acción ----- */
+QPushButton#add_to_library_button, QPushButton#save_review_button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+QPushButton#add_to_library_button:hover, QPushButton#save_review_button:hover {
+    background-color: #5aa1f2;
+}
+/* Estado deshabilitado (cuando ya está en librería) */
+QPushButton:disabled {
+    background-color: #555;
+    color: #aaa;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QFrame" name="title_bar_frame">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>864</width>
+          <height>8</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_close">
+        <property name="text">
+         <string>Close</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item>
     <widget class="QFrame" name="frame_superior">
      <property name="minimumSize">
@@ -37,6 +174,11 @@
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QFrame" name="frame_superior_izquierdo">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -60,7 +202,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>50</pointsize>
+             <pointsize>-1</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -108,7 +250,8 @@
           <widget class="QPushButton" name="add_to_library_button">
            <property name="font">
             <font>
-             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -126,7 +269,9 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>15</pointsize>
+             <pointsize>-1</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
             </font>
            </property>
            <property name="text">
@@ -154,6 +299,12 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QFrame" name="frame_izquierdo">
+        <property name="maximumSize">
+         <size>
+          <width>700</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -255,18 +406,49 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="overview_label">
-              <property name="font">
-               <font>
-                <pointsize>10</pointsize>
-               </font>
+             <widget class="QScrollArea" name="scrollArea">
+              <property name="autoFillBackground">
+               <bool>false</bool>
               </property>
-              <property name="text">
-               <string>Sinópsis (Overview)</string>
+              <property name="styleSheet">
+               <string notr="true">border: none; background-color: transparent;</string>
               </property>
-              <property name="wordWrap">
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="widgetResizable">
                <bool>true</bool>
               </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>615</width>
+                 <height>35</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QLabel" name="overview_label">
+                  <property name="font">
+                   <font>
+                    <pointsize>-1</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Sinópsis (Overview)</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </widget>
             </item>
             <item>
@@ -296,7 +478,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QTextEdit" name="review_textedit"/>
+             <widget class="QTextEdit" name="review_textedit">
+              <property name="placeholderText">
+               <string>Escribe tu opinión en este recuadro...</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="save_review_button">
@@ -325,6 +511,24 @@
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QLabel" name="poster_label">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>

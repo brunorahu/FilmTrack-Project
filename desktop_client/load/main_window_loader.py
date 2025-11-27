@@ -2,10 +2,10 @@
 
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QListWidgetItem
-from PySide6.QtCore import Qt, QPoint, QSize # <-- ¡QSize AÑADIDO!
+from PySide6.QtCore import Qt, QPoint, QSize
 import requests
 from load.details_window_loader import DetailsWindow
-from load.movie_card_loader import MovieCard # <-- ¡IMPORTACIÓN CLAVE AÑADIDA!
+from load.movie_card_loader import MovieCard
 
 class MainWindow:
     def __init__(self):
