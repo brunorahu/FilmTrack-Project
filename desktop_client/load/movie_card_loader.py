@@ -57,8 +57,9 @@ class MovieCard(QWidget):
     def set_movie_data(self, movie_data):
         # Seteamos el título y la calificación
         self.ui.title_label.setText(movie_data.get('title', 'N/A'))
-        rating = movie_data.get('vote_average', 0)
-        self.ui.rating_label.setText(f"⭐ {rating:.1f}")
+        rating_10 = movie_data.get('vote_average', 0)
+        rating_5 = rating_10 / 2
+        self.ui.rating_label.setText(f"⭐ {rating_5:.1f}") # Ahora será sobre 5
         
         # Iniciamos la descarga de la imagen en segundo plano
         poster_path = movie_data.get('poster_path')
