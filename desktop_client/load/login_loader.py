@@ -1,14 +1,35 @@
 # desktop_client/load/login_loader.py
 
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QMessageBox # Para mostrar mensajes de alerta
+from PySide6.QtWidgets import QMessageBox
+from PySide6.QtCore import Qt, QPoint
 import requests
 from load.main_window_loader import MainWindow
+
+from PySide6.QtGui import QIcon, QPixmap
+from load.utils import resource_path
 
 class LoginWindow:
     def __init__(self):
         loader = QUiLoader()
         self.ui = loader.load("view/login_window.ui")
+        
+        logo_path = resource_path("assets/logo_clean.png")
+        pixmap = QPixmap(logo_path)
+        
+        # Cargar icono de cerrar
+        close_icon_path = resource_path("assets/cerrar.png")
+        self.ui.btn_close.setIcon(QIcon(close_icon_path))
+        
+        # Cargar icono de minimizar
+        minimize_icon_path = resource_path("assets/minimizar.png")
+        self.ui.btn_minimize.setIcon(QIcon(minimize_icon_path))
+        
+        if pixmap.isNull():
+            print(f"Error: No se pudo cargar la imagen en {logo_path}")
+        else:
+            self.ui.label_filmtrack.setPixmap(pixmap)
+            self.ui.label_filmtrack.setScaledContents(True)
         
         self.main_window = None
         
@@ -17,13 +38,26 @@ class LoginWindow:
         self.ui.le_signup_password.setVisible(False)
         self.ui.le_signup_confirm_password.setVisible(False)
         
-        # Conectamos los dos botones a sus respectivas funciones
+        # Conectamos los botones
         self.ui.btn_login.clicked.connect(self.handle_login)
         self.ui.btn_create_account.clicked.connect(self.handle_create_account)
-        
-        # Conectamos la señal de cambio de texto del email
         self.ui.le_signup_email.textChanged.connect(self.toggle_signup_fields)
+        
+        # 1. Quitar Marco
+        self.ui.setWindowFlag(Qt.FramelessWindowHint)
+        
+        # 2. Conectar Botones de la Barra (Si existen en el diseño)
+        if hasattr(self.ui, 'btn_close'):
+            self.ui.btn_close.clicked.connect(self.ui.close)
+        if hasattr(self.ui, 'btn_minimize'):
+            self.ui.btn_minimize.clicked.connect(self.ui.showMinimized)
             
+        # 3. Lógica de Arrastre
+        self.drag_pos = QPoint(0, 0)
+        if hasattr(self.ui, 'title_bar_frame'):
+            self.ui.title_bar_frame.mouseMoveEvent = self.move_window
+            self.ui.title_bar_frame.mousePressEvent = self.mouse_press
+
     def handle_login(self):
         username = self.ui.le_username_email.text()
         password = self.ui.le_password.text()
@@ -80,11 +114,17 @@ class LoginWindow:
             QMessageBox.critical(self.ui, "Error de Conexión", "No se pudo conectar a la API.")
 
     def toggle_signup_fields(self, text):
-        """
-        Muestra los campos adicionales de registro si el campo de email tiene texto.
-        """
         is_visible = bool(text)
-        
         self.ui.le_signup_username.setVisible(is_visible)
         self.ui.le_signup_password.setVisible(is_visible)
         self.ui.le_signup_confirm_password.setVisible(is_visible)
+
+    # --- FUNCIONES DE ARRASTRE (¡ESTAS ERAN LAS FALTANTES!) ---
+    def mouse_press(self, event):
+        self.drag_pos = event.globalPosition().toPoint()
+
+    def move_window(self, event):
+        if event.buttons() == Qt.LeftButton:
+            delta = QPoint(event.globalPosition().toPoint() - self.drag_pos)
+            self.ui.move(self.ui.x() + delta.x(), self.ui.y() + delta.y())
+            self.drag_pos = event.globalPosition().toPoint()

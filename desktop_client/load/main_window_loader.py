@@ -7,10 +7,29 @@ import requests
 from load.details_window_loader import DetailsWindow
 from load.movie_card_loader import MovieCard
 
+from PySide6.QtGui import QIcon, QPixmap
+from load.utils import resource_path
+
 class MainWindow:
     def __init__(self):
         loader = QUiLoader()
         self.ui = loader.load("view/main_window.ui")
+        
+        logo_path = resource_path("assets/logo_clean.png")
+        self.ui.label_filmtrack.setPixmap(QPixmap(logo_path))
+        self.ui.label_filmtrack.setScaledContents(True)
+        
+        # Cargar icono de cerrar
+        close_icon_path = resource_path("assets/cerrar.png")
+        self.ui.btn_close.setIcon(QIcon(close_icon_path))
+        
+        # Cargar icono de minimizar
+        minimize_icon_path = resource_path("assets/minimizar.png")
+        self.ui.btn_minimize.setIcon(QIcon(minimize_icon_path))
+        
+        # Cargar icono de maximizar
+        maximize_icon_path = resource_path("assets/maximizar.png")
+        self.ui.btn_maximize.setIcon(QIcon(maximize_icon_path))
         
         # --- LÓGICA DE VENTANA SIN MARCO ---
         self.ui.setWindowFlag(Qt.FramelessWindowHint)
@@ -76,7 +95,7 @@ class MainWindow:
             
             list_item = QListWidgetItem()
             # Esta línea ahora funcionará porque QSize está importada
-            list_item.setSizeHint(QSize(180, 280))
+            list_item.setSizeHint(QSize(200, 290))
                         
             if movie_id:
                 list_item.setData(Qt.UserRole, movie_id)

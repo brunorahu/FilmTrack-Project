@@ -53,3 +53,15 @@ class TMDB_DAO:
         except requests.exceptions.RequestException as e:
             print(f"Error al obtener detalles de TMDB: {e}")
             return {"success": False, "error": str(e)}
+        
+    def get_movie_credits(self, movie_id):
+        """Obtiene el reparto (cast) y equipo (crew) de una película."""
+        endpoint = f'{self.base_url}/movie/{movie_id}/credits'
+        params = {'api_key': self.api_key, 'language': 'es-MX'} # Pedimos datos en español si es posible
+        try:
+            response = requests.get(endpoint, params=params)
+            response.raise_for_status()
+            return {"success": True, "data": response.json()}
+        except requests.exceptions.RequestException as e:
+            print(f"Error al obtener créditos: {e}")
+            return {"success": False, "error": str(e)}
