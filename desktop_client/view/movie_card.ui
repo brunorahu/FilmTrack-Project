@@ -7,11 +7,26 @@
     <x>0</x>
     <y>0</y>
     <width>180</width>
-    <height>280</height>
+    <height>263</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>233</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>180</width>
+    <height>263</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
   </property>
   <property name="styleSheet">
    <string notr="true">/* Estilo para el widget contenedor de la tarjeta */
@@ -41,14 +56,35 @@ QLabel#rating_label {
     font-size: 14px;
     padding-left: 5px;
     padding-right: 5px;
+}
+
+/* Efecto Hover directo en la tarjeta */
+QWidget#Form:hover {
+    background-color: #333333; /* Un gris un poco más claro */
+    border: 2px solid #800020; /* Borde color Vino */
+}
+
+/* Aseguramos que los labels internos tengan fondo transparente para heredar el color */
+QLabel {
+    background-color: transparent;
+}
+/* Excepción: El póster debe mantener su fondo si no carga */
+QLabel#poster_label {
+    background-color: #000; 
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
+   </property>
    <item>
-    <widget class="QLabel" name="poster_label">
+    <widget class="QFrame" name="frame">
      <property name="minimumSize">
       <size>
-       <width>162</width>
+       <width>0</width>
        <height>190</height>
       </size>
      </property>
@@ -58,18 +94,42 @@ QLabel#rating_label {
        <height>190</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true"/>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="text">
-      <string/>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
      </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="poster_label">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>170</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>170</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

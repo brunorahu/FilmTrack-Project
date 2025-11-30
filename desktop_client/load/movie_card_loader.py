@@ -3,7 +3,7 @@
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPixmap
-from PySide6.QtCore import QRunnable, QThreadPool, Slot, Signal, QObject
+from PySide6.QtCore import Qt, QRunnable, QThreadPool, Slot, Signal, QObject
 import requests
 
 class ImageLoader(QRunnable):
@@ -23,7 +23,7 @@ class ImageLoader(QRunnable):
     def run(self):
         try:
             # Construimos la URL completa del póster
-            full_url = f"https://image.tmdb.org/t/p/w200{self.image_url}"
+            full_url = f"https://image.tmdb.org/t/p/w500{self.image_url}"
             response = requests.get(full_url)
             response.raise_for_status()
             
@@ -57,8 +57,9 @@ class MovieCard(QWidget):
     def set_movie_data(self, movie_data):
         # Seteamos el título y la calificación
         self.ui.title_label.setText(movie_data.get('title', 'N/A'))
-        rating = movie_data.get('vote_average', 0)
-        self.ui.rating_label.setText(f"⭐ {rating:.1f}")
+        rating_10 = movie_data.get('vote_average', 0)
+        rating_5 = rating_10 / 2
+        self.ui.rating_label.setText(f"⭐ {rating_5:.1f}") # Ahora será sobre 5
         
         # Iniciamos la descarga de la imagen en segundo plano
         poster_path = movie_data.get('poster_path')
@@ -76,3 +77,4 @@ class MovieCard(QWidget):
         """
         if not pixmap.isNull():
             self.ui.poster_label.setPixmap(pixmap)
+            self.ui.poster_label.setAlignment(Qt.AlignCenter)

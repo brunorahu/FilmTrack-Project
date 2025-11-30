@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 from app.conexionbd import ConexionBD
 from app.dao.user_dao import UserDAO
 from app.dao.tmdb_dao import TMDB_DAO
-from app.dao.library_dao import LibraryDAO # <-- ¡NUEVA IMPORTACIÓN!
+from app.dao.library_dao import LibraryDAO 
 import time
 
 app = Flask(__name__)
@@ -139,7 +139,6 @@ def get_library_endpoint(user_id):
     else:
         return jsonify({"error": result["error"]}), 500
 
-# --- ¡NUEVO ENDPOINT PARA CALIFICAR Y RESEÑAR! ---
 @app.route('/api/library/review', methods=['POST'])
 def rate_review_endpoint():
     """
@@ -164,6 +163,16 @@ def rate_review_endpoint():
         return jsonify(result), 200
     else:
         return jsonify(result), 500
+
+@app.route('/api/movies/<int:movie_id>/credits', methods=['GET'])
+def get_movie_credits_endpoint(movie_id):
+    tmdb_dao = TMDB_DAO()
+    result = tmdb_dao.get_movie_credits(movie_id)
+
+    if result["success"]:
+        return jsonify(result["data"]), 200
+    else:
+        return jsonify({"error": result["error"]}), 503
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
