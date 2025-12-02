@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>274</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* Fondo General y Bordes */
+QDialog#Dialog {
+    background-color: #141414;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+/* Barra de Título */
+QFrame#title_bar_frame {
+    background-color: transparent;
+    border-bottom: 1px solid #333;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+QLabel#title_label { /* Asume que pusiste un label con el título */
+    color: #e0e0e0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+QFrame#frame{
+    background-color: transparent;
+}
+
+QFrame#frame_2{
+    background-color: transparent;
+}
+
+QFrame#frame_3{
+    background-color: transparent;
+}
+
+QFrame#frame_4{
+    background-color: transparent;
+}
+
+/* Avatar (Círculo) */
+QLabel#avatar_label {
+    background-color: #2b2b2b;
+    border: 2px solid #444;
+    border-radius: 75px; /* La mitad del tamaño (suponiendo 150x150) */
+    qproperty-alignment: 'AlignCenter';
+}
+
+/* Campos de Texto */
+QLineEdit, QTextEdit {
+    background-color: #2b2b2b;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 8px;
+    selection-background-color: #800020; /* Color vino al seleccionar texto */
+}
+QLineEdit:focus, QTextEdit:focus {
+    border: 1px solid #800020; /* Borde vino al tener foco */
+}
+
+/* Etiquetas de los campos */
+QLabel {
+    color: #aaa;
+    font-size: 12px;
+}
+
+/* Botones Rojos (Estilo &quot;Cambiar Avatar&quot; y &quot;Guardar&quot;) */
+QPushButton#btn_change_avatar, QPushButton#btn_save {
+    background-color: #800020; /* Rojo Gindha/Vino */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+QPushButton#btn_change_avatar:hover, QPushButton#btn_save:hover {
+    background-color: #a01030; /* Un poco más claro al hover */
+}
+
+/* Botón Cerrar/Cancelar (Estilo Blanco/Gris) */
+QPushButton#btn_close, QPushButton#btn_cancel {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+QPushButton#btn_close:hover {
+    background-color: #e0e0e0;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QFrame" name="frame_4">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="avatar_label">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>150</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>150</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QPushButton" name="btn_change_avatar">
+           <property name="text">
+            <string>Cambiar Avatar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_username">
+           <property name="inputMask">
+            <string/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>Nombre de usuario</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="txt_bio">
+           <property name="placeholderText">
+            <string>Biografía...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_3">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="btn_close">
+        <property name="text">
+         <string>Cerrar</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_save">
+        <property name="text">
+         <string>Guardar</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

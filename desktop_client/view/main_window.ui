@@ -87,7 +87,7 @@ QFrame#sidebar_frame {
     border: none;
     border-right: 1px solid #444;
 }
-QPushButton#btn_trending, QPushButton#btn_my_library {
+QPushButton#btn_trending, QPushButton#btn_my_library, QPushButton#btn_profile {
     color: #f0f0f0;
     background-color: transparent;
     border: none;
@@ -95,7 +95,7 @@ QPushButton#btn_trending, QPushButton#btn_my_library {
     font-size: 16px;
     text-align: left;
 }
-QPushButton#btn_trending:hover, QPushButton#btn_my_library:hover {
+QPushButton#btn_trending:hover, QPushButton#btn_my_library:hover, QPushButton#btn_profile:hover {
     background-color: #3c3c3c;
 }
 
@@ -110,7 +110,7 @@ QListWidget#movie_list_widget {
 }
 
 /* Botones de la barra lateral al pasar el mouse */
-QPushButton#btn_trending:hover, QPushButton#btn_my_library:hover {
+QPushButton#btn_trending:hover, QPushButton#btn_my_library:hover, QPushButton#btn_profile:hover {
     background-color: #800020; /* Color Vino */
     color: white;
     border-radius: 5px;
@@ -257,6 +257,13 @@ QPushButton#btn_trending:hover, QPushButton#btn_my_library:hover {
            <widget class="QPushButton" name="btn_my_library">
             <property name="text">
              <string>Mi Librería</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_profile">
+            <property name="text">
+             <string>Mi Perfil</string>
             </property>
            </widget>
           </item>
