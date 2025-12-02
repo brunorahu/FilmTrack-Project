@@ -2,3 +2,6 @@
 flask
 pyodbc
 requests
+scikit-learn
+pandas
+numpy

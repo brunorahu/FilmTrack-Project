@@ -7,6 +7,8 @@ import requests
 from load.details_window_loader import DetailsWindow
 from load.movie_card_loader import MovieCard
 
+from load.profile_window_loader import ProfileWindow
+
 from PySide6.QtGui import QIcon, QPixmap
 from load.utils import resource_path
 
@@ -54,10 +56,18 @@ class MainWindow:
         self.ui.search_button.setVisible(False)
         self.ui.btn_trending.clicked.connect(self.load_trending_movies)
         self.ui.btn_my_library.clicked.connect(self.handle_my_library)
+        if hasattr(self.ui, 'btn_profile'):
+            self.ui.btn_profile.clicked.connect(self.open_profile)
         self.ui.search_bar.returnPressed.connect(self.handle_search)
         self.ui.movie_list_widget.itemDoubleClicked.connect(self.handle_item_double_click)
         
         self.load_trending_movies()
+        
+    # --- NUEVO MÉTODO ---
+    def open_profile(self):
+        if not self.user_id: return
+        self.profile_window = ProfileWindow(self.user_id)
+        self.profile_window.ui.show()
 
     # --- NUEVAS FUNCIONES PARA EL MANEJO DE LA VENTANA ---
     def toggle_maximize(self):

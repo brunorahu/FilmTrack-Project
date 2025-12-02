@@ -320,13 +320,13 @@ background-color: transparent;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>30</height>
+             <height>45</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="font">
@@ -344,13 +344,13 @@ background-color: transparent;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>30</height>
+             <height>45</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="font">
@@ -451,7 +451,7 @@ background-color: transparent;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -481,13 +481,13 @@ background-color: transparent;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="font">
@@ -511,13 +511,13 @@ background-color: transparent;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="font">
@@ -544,13 +544,13 @@ background-color: transparent;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>40</height>
+             <height>45</height>
             </size>
            </property>
            <property name="font">

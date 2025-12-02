@@ -1,7 +1,5 @@
 # docker-compose.yml
 
-version: '3.8'
-
 services:
   # Servicio para la Base de Datos SQL Server
   db:
@@ -23,6 +21,8 @@ services:
       - "5000:5000"  # Mapea el puerto de la API al de tu máquina
     depends_on:
       - db  # Asegura que la base de datos inicie antes que la API
+    volumes:
+      - ./backend/uploads:/app/uploads
 
 volumes:
   filmtrack-db-data:
